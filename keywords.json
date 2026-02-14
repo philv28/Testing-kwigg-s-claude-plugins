@@ -8,6 +8,22 @@
     "instruction": "The user wants a code review of their uncommitted changes.\nYou MUST invoke the kw-plugin:review-code skill using the Skill tool.\nPass argument \"1\" for uncommitted changes unless the user specifies otherwise."
   },
   {
+    "name": "gemini-review",
+    "triggers": ["gemini review", "dual review", "gemini code review"],
+    "priority": 1,
+    "skill": "kw-plugin:gemini-review",
+    "skillArgs": "1",
+    "excludes": ["review"],
+    "instruction": "The user wants a dual code review from both Claude and Gemini.\nYou MUST invoke the kw-plugin:gemini-review skill using the Skill tool.\nPass argument \"1\" for uncommitted changes unless the user specifies otherwise."
+  },
+  {
+    "name": "ask-gemini",
+    "triggers": ["ask gemini", "gemini opinion", "what does gemini think"],
+    "priority": 2,
+    "skill": "kw-plugin:ask-gemini",
+    "instruction": "The user wants Gemini's independent opinion on a topic, file, or question.\nYou MUST invoke the kw-plugin:ask-gemini skill using the Skill tool.\nPass the user's question or file reference as the argument."
+  },
+  {
     "name": "pr",
     "triggers": ["create pr", "open pr", "push pr", "make pr", "write pr"],
     "priority": 2,

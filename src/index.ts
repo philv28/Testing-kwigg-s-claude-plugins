@@ -98,6 +98,19 @@ export type {
   PlanItem,
 } from './boulder/index.js';
 
+// Gemini
+export {
+  getGeminiPath,
+  isGeminiAvailable,
+  getGeminiVersion,
+  invokeGemini,
+} from './gemini/index.js';
+export type {
+  GeminiInvokeOptions,
+  GeminiResult,
+  GeminiErrorReason,
+} from './gemini/index.js';
+
 // Types
 export type {
   PluginConfig,

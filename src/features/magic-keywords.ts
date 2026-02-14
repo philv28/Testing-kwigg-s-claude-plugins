@@ -98,6 +98,10 @@ function buildTriggerRegex(triggers: string[]): RegExp {
 /**
  * Detect which magic keywords are present in a prompt.
  * Returns matched keywords sorted by priority (lowest number = highest priority).
+ *
+ * Supports `excludes` field: when keyword A lists keyword B in its excludes array,
+ * and both match, keyword B is filtered out. This prevents "gemini review" from
+ * triggering both `gemini-review` and `review`.
  */
 export function detectKeywords(
   prompt: string,
@@ -110,7 +114,22 @@ export function detectKeywords(
     return regex.test(sanitized);
   });
 
-  return matches.sort((a, b) => a.priority - b.priority);
+  // Build set of excluded keyword names
+  const excludedNames = new Set<string>();
+  for (const kw of matches) {
+    if (kw.excludes) {
+      for (const name of kw.excludes) {
+        excludedNames.add(name);
+      }
+    }
+  }
+
+  // Filter out excluded keywords
+  const filtered = excludedNames.size > 0
+    ? matches.filter((kw) => !excludedNames.has(kw.name))
+    : matches;
+
+  return filtered.sort((a, b) => a.priority - b.priority);
 }
 
 /**
