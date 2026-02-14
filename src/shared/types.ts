@@ -104,6 +104,8 @@ export interface MagicKeyword {
   skill?: string;
   /** Optional: skill arguments */
   skillArgs?: string;
+  /** Optional: keyword names to exclude when this keyword matches (prevents collision) */
+  excludes?: string[];
 }
 
 /**

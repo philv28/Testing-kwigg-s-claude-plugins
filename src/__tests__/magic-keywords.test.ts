@@ -226,6 +226,67 @@ describe('detectKeywords', () => {
     );
     expect(matches).toHaveLength(0);
   });
+
+  it('should exclude keywords listed in excludes array', () => {
+    const keywordsWithExcludes: MagicKeyword[] = [
+      ...TEST_KEYWORDS,
+      {
+        name: 'gemini-review',
+        triggers: ['gemini review', 'dual review'],
+        priority: 1,
+        skill: 'kw-plugin:gemini-review',
+        skillArgs: '1',
+        excludes: ['review'],
+        instruction: 'Dual review with Gemini.',
+      },
+    ];
+
+    // "gemini review" matches both "gemini-review" and "review"
+    // but gemini-review excludes "review", so only gemini-review should remain
+    const matches = detectKeywords('gemini review my code', keywordsWithExcludes);
+    const names = matches.map((m) => m.name);
+    expect(names).toContain('gemini-review');
+    expect(names).not.toContain('review');
+  });
+
+  it('should not exclude keywords when excludes does not match', () => {
+    const keywordsWithExcludes: MagicKeyword[] = [
+      ...TEST_KEYWORDS,
+      {
+        name: 'gemini-review',
+        triggers: ['gemini review'],
+        priority: 1,
+        excludes: ['review'],
+        instruction: 'Dual review.',
+      },
+    ];
+
+    // Plain "review" should still work — gemini-review doesn't match
+    const matches = detectKeywords('review my code', keywordsWithExcludes);
+    const names = matches.map((m) => m.name);
+    expect(names).toContain('review');
+    expect(names).not.toContain('gemini-review');
+  });
+
+  it('should allow non-excluded keywords through when excludes is active', () => {
+    const keywordsWithExcludes: MagicKeyword[] = [
+      ...TEST_KEYWORDS,
+      {
+        name: 'gemini-review',
+        triggers: ['gemini review'],
+        priority: 1,
+        excludes: ['review'],
+        instruction: 'Dual review.',
+      },
+    ];
+
+    // "thorough gemini review" should match gemini-review and thorough, but not review
+    const matches = detectKeywords('thorough gemini review', keywordsWithExcludes);
+    const names = matches.map((m) => m.name);
+    expect(names).toContain('gemini-review');
+    expect(names).toContain('thorough');
+    expect(names).not.toContain('review');
+  });
 });
 
 // ---------------------------------------------------------------------------
