@@ -22,12 +22,53 @@ import type {
 } from '../shared/types.js';
 
 // ---------------------------------------------------------------------------
+// Keyword validation
+// ---------------------------------------------------------------------------
+
+/**
+ * Validate that a parsed JSON entry has the required shape of a MagicKeyword.
+ * Returns an error message if invalid, or undefined if valid.
+ */
+export function validateKeyword(entry: unknown): string | undefined {
+  if (typeof entry !== 'object' || entry === null) {
+    return 'entry is not an object';
+  }
+
+  const obj = entry as Record<string, unknown>;
+
+  if (typeof obj.name !== 'string' || obj.name.length === 0) {
+    return 'missing or empty "name" (string)';
+  }
+
+  if (!Array.isArray(obj.triggers) || obj.triggers.length === 0) {
+    return `keyword "${obj.name}": "triggers" must be a non-empty array`;
+  }
+
+  for (const t of obj.triggers) {
+    if (typeof t !== 'string') {
+      return `keyword "${obj.name}": each trigger must be a string`;
+    }
+  }
+
+  if (typeof obj.priority !== 'number') {
+    return `keyword "${obj.name}": "priority" must be a number`;
+  }
+
+  if (typeof obj.instruction !== 'string' || obj.instruction.length === 0) {
+    return `keyword "${obj.name}": "instruction" must be a non-empty string`;
+  }
+
+  return undefined;
+}
+
+// ---------------------------------------------------------------------------
 // Keyword loading
 // ---------------------------------------------------------------------------
 
 /**
  * Load keywords from a JSON file.
  * Returns empty array if file doesn't exist or can't be parsed.
+ * Invalid entries are filtered out with a stderr warning.
  */
 export function loadKeywordsFromFile(filePath: string): MagicKeyword[] {
   try {
@@ -35,7 +76,17 @@ export function loadKeywordsFromFile(filePath: string): MagicKeyword[] {
     const raw = readFileSync(filePath, 'utf-8');
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return [];
-    return parsed as MagicKeyword[];
+
+    const valid: MagicKeyword[] = [];
+    for (const entry of parsed) {
+      const error = validateKeyword(entry);
+      if (error) {
+        process.stderr.write(`[kw-plugin] Skipping invalid keyword: ${error}\n`);
+      } else {
+        valid.push(entry as MagicKeyword);
+      }
+    }
+    return valid;
   } catch {
     return [];
   }
