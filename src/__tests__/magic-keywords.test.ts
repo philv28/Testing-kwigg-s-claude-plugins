@@ -10,6 +10,7 @@ import {
   processKeywords,
   loadKeywordsFromFile,
   loadKeywords,
+  validateKeyword,
 } from '../features/magic-keywords.js';
 import type { MagicKeyword } from '../shared/types.js';
 
@@ -114,6 +115,153 @@ describe('loadKeywords', () => {
   it('should return empty array when no keywords.json exists', () => {
     const keywords = loadKeywords(tempDir);
     expect(keywords).toHaveLength(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// validateKeyword
+// ---------------------------------------------------------------------------
+
+describe('validateKeyword', () => {
+  it('should accept a valid keyword', () => {
+    expect(validateKeyword({
+      name: 'review',
+      triggers: ['review'],
+      priority: 1,
+      instruction: 'Do a review.',
+    })).toBeUndefined();
+  });
+
+  it('should reject non-object entries', () => {
+    expect(validateKeyword(null)).toBe('entry is not an object');
+    expect(validateKeyword('string')).toBe('entry is not an object');
+    expect(validateKeyword(42)).toBe('entry is not an object');
+  });
+
+  it('should reject missing name', () => {
+    expect(validateKeyword({
+      triggers: ['review'],
+      priority: 1,
+      instruction: 'Do it.',
+    })).toContain('name');
+  });
+
+  it('should reject empty name', () => {
+    expect(validateKeyword({
+      name: '',
+      triggers: ['review'],
+      priority: 1,
+      instruction: 'Do it.',
+    })).toContain('name');
+  });
+
+  it('should reject missing triggers', () => {
+    expect(validateKeyword({
+      name: 'review',
+      priority: 1,
+      instruction: 'Do it.',
+    })).toContain('triggers');
+  });
+
+  it('should reject empty triggers array', () => {
+    expect(validateKeyword({
+      name: 'review',
+      triggers: [],
+      priority: 1,
+      instruction: 'Do it.',
+    })).toContain('triggers');
+  });
+
+  it('should reject triggers as string instead of array', () => {
+    expect(validateKeyword({
+      name: 'review',
+      triggers: 'review',
+      priority: 1,
+      instruction: 'Do it.',
+    })).toContain('triggers');
+  });
+
+  it('should reject non-string trigger elements', () => {
+    expect(validateKeyword({
+      name: 'review',
+      triggers: [123],
+      priority: 1,
+      instruction: 'Do it.',
+    })).toContain('trigger must be a string');
+  });
+
+  it('should reject missing priority', () => {
+    expect(validateKeyword({
+      name: 'review',
+      triggers: ['review'],
+      instruction: 'Do it.',
+    })).toContain('priority');
+  });
+
+  it('should reject string priority', () => {
+    expect(validateKeyword({
+      name: 'review',
+      triggers: ['review'],
+      priority: 'high',
+      instruction: 'Do it.',
+    })).toContain('priority');
+  });
+
+  it('should reject missing instruction', () => {
+    expect(validateKeyword({
+      name: 'review',
+      triggers: ['review'],
+      priority: 1,
+    })).toContain('instruction');
+  });
+
+  it('should reject empty instruction', () => {
+    expect(validateKeyword({
+      name: 'review',
+      triggers: ['review'],
+      priority: 1,
+      instruction: '',
+    })).toContain('instruction');
+  });
+
+  it('should accept keywords with optional fields', () => {
+    expect(validateKeyword({
+      name: 'review',
+      triggers: ['review'],
+      priority: 1,
+      instruction: 'Do it.',
+      skill: 'kw-plugin:review-code',
+      skillArgs: '1',
+      excludes: ['other'],
+    })).toBeUndefined();
+  });
+});
+
+describe('loadKeywordsFromFile with validation', () => {
+  let tempDir: string;
+
+  beforeEach(() => {
+    tempDir = mkdtempSync(join(tmpdir(), 'kw-keywords-test-'));
+  });
+
+  afterEach(() => {
+    rmSync(tempDir, { recursive: true, force: true });
+  });
+
+  it('should filter out invalid entries and keep valid ones', () => {
+    const mixed = [
+      { name: 'good', triggers: ['good'], priority: 1, instruction: 'OK.' },
+      { name: 'bad', triggers: 'not-array', priority: 1, instruction: 'Bad.' },
+      { triggers: ['missing-name'], priority: 1, instruction: 'No name.' },
+      { name: 'also-good', triggers: ['also'], priority: 2, instruction: 'Fine.' },
+    ];
+    const filePath = join(tempDir, 'keywords.json');
+    writeFileSync(filePath, JSON.stringify(mixed));
+
+    const keywords = loadKeywordsFromFile(filePath);
+    expect(keywords).toHaveLength(2);
+    expect(keywords[0].name).toBe('good');
+    expect(keywords[1].name).toBe('also-good');
   });
 });
 
