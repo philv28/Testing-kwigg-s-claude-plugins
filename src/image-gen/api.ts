@@ -6,14 +6,8 @@ import { GoogleGenAI } from '@google/genai';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { DEFAULT_IMAGE_MODEL } from './types.js';
-import type { ImageGenOptions, ImageGenResult, ImageGenErrorReason } from './types.js';
-
-/**
- * Check whether the GEMINI_API_KEY environment variable is set.
- */
-export function isApiKeySet(): boolean {
-  return !!process.env['GEMINI_API_KEY'];
-}
+import type { ImageGenOptions, ImageGenResult } from './types.js';
+import { classifyError } from '../gemini/shared.js';
 
 /**
  * Infer MIME type from a file extension.
@@ -41,32 +35,6 @@ function loadReferenceImage(filePath: string): { inlineData: { data: string; mim
       mimeType: mimeTypeFromPath(filePath),
     },
   };
-}
-
-/**
- * Classify a caught error into an ImageGenErrorReason.
- */
-export function classifyError(err: unknown): { error: ImageGenErrorReason; errorMessage: string } {
-  if (!(err instanceof Error)) {
-    return { error: 'generation_error', errorMessage: String(err) };
-  }
-
-  const msg = err.message.toLowerCase();
-
-  if (msg.includes('api_key') || msg.includes('api key') || msg.includes('apikey')) {
-    return { error: 'auth_error', errorMessage: err.message };
-  }
-  if (msg.includes('429') || msg.includes('rate limit') || msg.includes('resource_exhausted') || msg.includes('resource exhausted') || msg.includes('quota')) {
-    return { error: 'rate_limit', errorMessage: err.message };
-  }
-  if (msg.includes('401') || msg.includes('403') || msg.includes('authentication') || msg.includes('permission')) {
-    return { error: 'auth_error', errorMessage: err.message };
-  }
-  if (msg.includes('safety') || msg.includes('blocked') || msg.includes('harmful')) {
-    return { error: 'safety_filter', errorMessage: err.message };
-  }
-
-  return { error: 'generation_error', errorMessage: err.message };
 }
 
 /**

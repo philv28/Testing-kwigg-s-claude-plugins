@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
-import { generateImage, isApiKeySet, classifyError } from '../image-gen/api.js';
+import { generateImage } from '../image-gen/api.js';
+import { isApiKeySet, classifyError } from '../gemini/shared.js';
 import { DEFAULT_IMAGE_MODEL } from '../image-gen/types.js';
 import { parseArgs } from '../image-gen/cli.js';
 

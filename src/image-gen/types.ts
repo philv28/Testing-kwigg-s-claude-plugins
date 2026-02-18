@@ -48,12 +48,10 @@ export interface ImageGenResult {
 
 /**
  * Classified error reasons for image generation failures.
+ * Extends the base ApiErrorReason with image-specific reasons.
  */
+export type { ApiErrorReason } from '../gemini/shared.js';
 export type ImageGenErrorReason =
-  | 'api_key_missing'
-  | 'rate_limit'
-  | 'auth_error'
-  | 'safety_filter'
+  | import('../gemini/shared.js').ApiErrorReason
   | 'no_image'
-  | 'reference_not_found'
-  | 'generation_error';
+  | 'reference_not_found';

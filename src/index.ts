@@ -103,15 +103,16 @@ export type {
 
 // Gemini
 export {
-  getGeminiPath,
-  isGeminiAvailable,
-  getGeminiVersion,
-  invokeGemini,
+  isApiKeySet,
+  generateText,
+  classifyError,
+  DEFAULT_TEXT_MODEL,
 } from './gemini/index.js';
 export type {
   GeminiInvokeOptions,
   GeminiResult,
   GeminiErrorReason,
+  ApiErrorReason,
 } from './gemini/index.js';
 
 // Types

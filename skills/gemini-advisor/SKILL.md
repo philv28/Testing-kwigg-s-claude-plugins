@@ -4,16 +4,16 @@ description: |
   Gets Gemini's independent opinion on any file, topic, or discussion.
   Use when users say "ask gemini", "gemini opinion", or "what does gemini think".
   Provides a second perspective from a different AI model with Claude's commentary.
-  Requires the Gemini CLI to be installed (`gemini` binary).
+  Requires GEMINI_API_KEY environment variable to be set.
 ---
 
 # Gemini Advisor Skill
 
 ## Before Starting
 
-1. **Check Gemini availability** — Run `gemini --version` via Bash to verify
-   the CLI is installed and authenticated. If it fails, inform the user that
-   Gemini is not available and offer to answer the question directly.
+1. **Check Gemini availability** — Run `test -n "$GEMINI_API_KEY"` via Bash to verify
+   the API key is configured. If it fails, inform the user that Gemini API key is not
+   configured and offer to answer the question directly.
 2. **Determine context** — Figure out what the user wants Gemini's opinion on:
    - A specific file → read the file content
    - A code question → formulate the question with relevant context
@@ -31,17 +31,19 @@ Build a clear, self-contained prompt for Gemini that includes:
 
 ### Step 2: Send to Gemini
 
-Use Bash to invoke Gemini CLI:
+Use Bash to invoke the Gemini CLI entrypoint:
 
 ```bash
-echo "<context>" | gemini -p "<question with framing>" -o text
+echo "<context>" | node {pluginDir}/dist/gemini/cli.js --prompt "<question with framing>"
 ```
 
 Or without stdin if no file/code context is needed:
 
 ```bash
-gemini -p "<full question with context>" -o text
+node {pluginDir}/dist/gemini/cli.js --prompt "<full question with context>"
 ```
+
+The CLI outputs JSON with `success`, `output`, `model`, and optional error fields.
 
 ### Step 3: Present Results
 
@@ -59,8 +61,8 @@ concise — the point is to get a second opinion, not to debate.]
 
 ## Fallback Behavior
 
-If Gemini CLI is not available or fails:
-1. Inform the user: "Gemini CLI not available."
+If Gemini API key is not configured or the call fails:
+1. Inform the user: "Gemini API key not configured."
 2. Offer to answer the question directly as Claude.
 3. Do NOT block on Gemini unavailability.
 

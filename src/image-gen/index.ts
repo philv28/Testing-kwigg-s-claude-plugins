@@ -2,7 +2,8 @@
  * Gemini image generation module.
  */
 
-export { isApiKeySet, generateImage, classifyError } from './api.js';
+export { isApiKeySet, classifyError } from '../gemini/shared.js';
+export { generateImage } from './api.js';
 export type {
   ImageModel,
   ImageGenOptions,
