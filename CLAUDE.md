@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Claude Code plugin that provides commands for code review, PR creation, team GitHub insights, and multi-model second opinions via Gemini CLI.
+This is a Claude Code plugin that provides commands for code review, PR creation, team GitHub insights, and multi-model second opinions via Gemini API.
 
 **Commands:**
 - `/review-code` - Code review (backed by `code-reviewer` skill)
@@ -59,12 +59,12 @@ description: |
 
 ## TypeScript Infrastructure
 
-- **TypeScript** (`src/`): Hooks, config, GitHub insights CLI, Gemini CLI, HUD, release reports
+- **TypeScript** (`src/`): Hooks, config, GitHub insights CLI, Gemini API, HUD, release reports
   - `src/github/` — Shared GitHub API wrapper (gh CLI integration, types)
-  - `src/gemini/` — Gemini CLI wrapper (availability check, invocation, error classification)
+  - `src/gemini/` — Gemini text generation API wrapper (`@google/genai` SDK, CLI entrypoint at `dist/gemini/cli.js`)
   - `src/insights/` — Team analytics (11 report actions, CLI entrypoint at `dist/insights/cli.js`)
   - `src/releases/` — Release report data, classification, formatting, and actions
-  - `src/image-gen/` — Gemini image generation SDK wrapper (CLI entrypoint at `dist/image-gen/cli.js`)
+  - `src/image-gen/` — Gemini image generation API wrapper (CLI entrypoint at `dist/image-gen/cli.js`)
 
 ### Build & Test
 

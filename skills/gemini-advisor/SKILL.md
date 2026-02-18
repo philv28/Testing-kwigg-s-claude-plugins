@@ -31,7 +31,7 @@ Build a clear, self-contained prompt for Gemini that includes:
 
 ### Step 2: Send to Gemini
 
-Use Bash to invoke the Gemini CLI entrypoint:
+Use Bash to invoke the Gemini API entrypoint:
 
 ```bash
 echo "<context>" | node {pluginDir}/dist/gemini/cli.js --prompt "<question with framing>"

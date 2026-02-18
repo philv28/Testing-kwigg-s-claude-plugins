@@ -28,7 +28,7 @@ Run `/plugin`, go to Marketplaces tab, enable auto-update for `claude-code-plugi
 - Claude Code v2.0.12 or higher
 - GitHub CLI (`gh`) authenticated
 - Git repository with GitHub remote
-- (Optional) [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) for dual-review and second-opinion features
+- (Optional) `GEMINI_API_KEY` environment variable for Gemini features (dual-review, second opinions, image generation)
 
 ## Commands
 
@@ -45,8 +45,10 @@ Run `/plugin`, go to Marketplaces tab, enable auto-update for `claude-code-plugi
 |---------|-------------|
 | `/gemini-review` | Dual code review from both Claude and Gemini with synthesis |
 | `/ask-gemini` | Get Gemini's independent opinion on any file, topic, or question |
+| `/generate-image` | Generate images using Gemini with AI-enhanced prompts |
+| `/paper-banana` | Publication-quality illustrations via 5-agent pipeline |
 
-> **Requires:** [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) installed and authenticated. Install with `npm install -g @google/gemini-cli` or see the Gemini CLI repo for other methods. If the Gemini CLI is not available, these commands gracefully fall back to Claude-only behavior.
+> **Requires:** `GEMINI_API_KEY` environment variable. Get a free key at [Google AI Studio](https://aistudio.google.com/apikey). If the API key is not configured, the dual-review and advisor commands gracefully fall back to Claude-only behavior.
 
 ### Team Analytics
 
@@ -120,6 +122,8 @@ Type these phrases naturally instead of using slash commands:
 | `issue-creator` | `/create-issue` |
 | `gemini-reviewer` | `/gemini-review` |
 | `gemini-advisor` | `/ask-gemini` |
+| `image-generator` | `/generate-image` |
+| `paper-banana` | `/paper-banana` |
 | `assumption-challenger` | `/validate` |
 | `antipattern-detector` | `/validate` |
 | `validator` | `/validate` |
@@ -129,29 +133,18 @@ Type these phrases naturally instead of using slash commands:
 - [GitHub CLI](https://cli.github.com/) (`gh`) authenticated
 - Git repository with GitHub remote
 
-### Optional: Gemini CLI
+### Optional: Gemini API Key
 
-The `/gemini-review` and `/ask-gemini` commands require the [Google Gemini CLI](https://github.com/google-gemini/gemini-cli):
+The `/gemini-review`, `/ask-gemini`, `/generate-image`, and `/paper-banana` commands require a `GEMINI_API_KEY` environment variable:
 
-```bash
-npm install -g @google/gemini-cli
-```
-
-After installation, authenticate:
+1. Get a free API key at [Google AI Studio](https://aistudio.google.com/apikey)
+2. Set the environment variable:
 
 ```bash
-gemini
+export GEMINI_API_KEY="your-key-here"
 ```
 
-The CLI will walk you through authentication on first run. Once set up, verify with:
-
-```bash
-gemini --version
-```
-
-You can override the binary path via the `GEMINI_CLI_PATH` environment variable if it's not on your PATH.
-
-If the Gemini CLI is not installed, the dual-review and advisor commands will gracefully fall back to Claude-only behavior.
+If the API key is not configured, the dual-review and advisor commands gracefully fall back to Claude-only behavior. Image generation commands require the key to function.
 
 ## Structure
 
@@ -160,7 +153,8 @@ If the Gemini CLI is not installed, the dual-review and advisor commands will gr
 commands/                    # Slash command definitions
 skills/                      # Skill implementations (SKILL.md files)
 src/github/                  # GitHub CLI wrapper (gh integration)
-src/gemini/                  # Gemini CLI wrapper
+src/gemini/                  # Gemini text generation API wrapper
+src/image-gen/               # Gemini image generation API wrapper
 src/insights/                # Team analytics engine
 src/releases/                # Release report engine
 src/features/                # Magic keywords, hooks
