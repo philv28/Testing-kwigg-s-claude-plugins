@@ -106,3 +106,11 @@ The script outputs markdown tables ready for display. No additional formatting n
 - Must be run from within a git repository
 - Requires `gh` CLI authenticated (`gh auth status`)
 - Requires `npm run build` to have been run (compiles TypeScript to dist/)
+
+## CLI Reference
+
+If unsure about available actions or flags, run:
+
+```bash
+node {baseDir}/dist/insights/cli.js --help
+```

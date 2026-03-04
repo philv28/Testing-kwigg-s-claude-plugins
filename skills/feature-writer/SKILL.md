@@ -226,3 +226,24 @@ Ask user to provide more details during review.
 - Proposed solution with implementation details (class names, APIs)
 - Key features that are implementation tasks, not user capabilities
 - Overly long or verbose sections
+
+### WRONG vs. CORRECT: Problem Statement
+
+**WRONG — feature name rephrased as problem:**
+> ## Problem Statement
+> We need dark mode support for the application.
+
+**CORRECT — user-pain-driven with evidence:**
+> ## Problem Statement
+> Users report eye strain when using the app in low-light environments, generating 15+ support tickets per month. 73% of comparable apps offer dark mode, and it's the #2 feature request in our latest user survey.
+
+## Pre-Delivery Checklist
+
+Before presenting a feature 1-pager, verify:
+
+- [ ] Problem statement describes user pain, not a feature name
+- [ ] Problem statement includes evidence (tickets, data, quotes)
+- [ ] Key features are user capabilities, not implementation tasks
+- [ ] Proposed solution focuses on WHAT, not HOW (no class names, APIs)
+- [ ] Each section is concise and scannable
+- [ ] User's own terminology is used where possible

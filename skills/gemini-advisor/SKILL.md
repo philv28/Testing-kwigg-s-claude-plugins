@@ -73,3 +73,15 @@ If Gemini API key is not configured or the call fails:
 - If the user's question is about a file, always read and pipe the file content.
 - Keep Gemini prompts self-contained — Gemini has no conversation context.
 - Do not send sensitive information (secrets, credentials) to Gemini.
+
+## When to Use This Skill
+
+Use **gemini-advisor** for second opinions on any topic, file, or technical question. Use **gemini-reviewer** (`/gemini-review`) for structured dual code reviews with formal synthesis and verdict.
+
+## CLI Reference
+
+If unsure about Gemini CLI flags, run:
+
+```bash
+node {pluginDir}/dist/gemini/cli.js --help
+```

@@ -161,3 +161,11 @@ After a successful generation, ask:
 - For characters, describe pose, expression, and clothing
 - For landscapes, describe time of day, weather, and atmosphere
 - Negative phrasing ("no text", "no watermark") can help avoid unwanted elements
+
+## CLI Reference
+
+If unsure about available flags or generation options, run:
+
+```bash
+node {pluginDir}/dist/image-gen/cli.js --help
+```

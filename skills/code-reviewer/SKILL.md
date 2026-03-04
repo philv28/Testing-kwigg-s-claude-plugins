@@ -109,5 +109,45 @@ Avoid false positives by NOT flagging:
 - Be specific and actionable — avoid vague feedback like "make this cleaner".
 - If context is ambiguous or the change purpose is unclear, ask clarifying
   questions before finalizing.
-- Calibrate depth to change size: small fixes get lighter review, large
-  features get thorough analysis.
+- Calibrate depth to change size: see "Review Depth Calibration" below.
+
+## Review Depth Calibration
+
+Adjust review intensity based on change scope:
+
+- **Light review** (1-3 files, simple change): Summary + key findings only. Skip "What's Done Well" if nothing notable.
+- **Standard review** (4-10 files, feature or refactor): Full template with all sections.
+- **Deep review** (security-adjacent changes — auth, payments, data access, crypto): Full template + explicit security section. Always use full depth regardless of file count.
+
+## Examples
+
+### WRONG vs. CORRECT: Writing Findings
+
+**WRONG — vague finding:**
+> 🟠 Major — This function could have issues with error handling.
+
+**CORRECT — actionable finding with evidence:**
+> 🟠 Major (82%) `src/api/users.ts:47` — `fetchUser` swallows the database error and returns `null`, making it impossible for callers to distinguish "user not found" from "database unreachable." Return a `Result<User, DbError>` or rethrow with context.
+
+---
+
+### WRONG vs. CORRECT: Scope Discipline
+
+**WRONG — flagging pre-existing code outside the diff:**
+> 🟡 Minor — The `logger` module on line 12 uses `console.log` instead of a structured logger.
+> *(Line 12 was not modified in this change.)*
+
+**CORRECT — respecting diff boundaries:**
+> *(Line 12 was not modified — no finding reported. If important, noted under "Pre-existing Issues Worth Noting.")*
+
+## Pre-Delivery Checklist
+
+Before presenting a review, verify:
+
+- [ ] Every finding includes a `file:line` reference
+- [ ] Every finding includes a confidence percentage
+- [ ] No findings flag lines outside the diff (scope discipline)
+- [ ] CLAUDE.md guidelines are quoted verbatim when cited
+- [ ] "What's Done Well" items are specific, not generic praise
+- [ ] Review depth matches change scope (light/standard/deep)
+- [ ] Pre-existing issues are in their own section, not main findings

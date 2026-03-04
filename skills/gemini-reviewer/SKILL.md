@@ -106,3 +106,25 @@ If Gemini API key is not configured or the call fails:
 - Present Gemini's output faithfully; do not rewrite or suppress its findings.
 - If Gemini produces low-quality output, note it but still include it.
 - The synthesis should add value, not just repeat findings.
+
+## When to Use This Skill
+
+Use **gemini-reviewer** for structured dual code reviews with synthesis (agreements, unique findings, verdict). Use **gemini-advisor** (`/ask-gemini`) for general second opinions on any topic, file, or question — not limited to code review.
+
+## Pre-Delivery Checklist
+
+Before presenting a dual review, verify:
+
+- [ ] Claude's review was completed independently before reading Gemini's
+- [ ] Gemini's output is presented faithfully without rewriting
+- [ ] Synthesis contains all 3 sections: Agreements, Unique to Claude, Unique to Gemini
+- [ ] Verdict addresses any disagreements between reviewers
+- [ ] Fallback behavior was followed if Gemini was unavailable
+
+## CLI Reference
+
+If unsure about Gemini CLI flags, run:
+
+```bash
+node {pluginDir}/dist/gemini/cli.js --help
+```
