@@ -144,6 +144,21 @@ Before delivering the report, verify:
 - [ ] Tone matches verdict severity
 - [ ] Every point is specific — zero generic feedback
 
+## Examples
+
+### WRONG vs. CORRECT: Success Criteria
+
+**WRONG — vague and unmeasurable:**
+> For this to be ready:
+> - [ ] Team should be confident in the solution
+> - [ ] Performance should be acceptable
+
+**CORRECT — specific and verifiable:**
+> For this to be ready:
+> - [ ] P95 latency ≤ 200ms under 500 concurrent users (load test documented)
+> - [ ] Zero critical/high findings in security review
+> - [ ] Rollback procedure tested in staging with < 5 min recovery
+
 ---
 
 ## Output Format

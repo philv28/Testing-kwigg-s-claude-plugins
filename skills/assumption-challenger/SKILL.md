@@ -136,6 +136,22 @@ Red flags that suggest hope rather than evidence:
 
 ---
 
+## When to Use This Skill
+
+Use **assumption-challenger** for surfacing hidden assumptions and stress-testing them with evidence. Use **antipattern-detector** for recognizing known failure patterns. Both run together in `/validate`.
+
+## Pre-Delivery Checklist
+
+Before presenting an analysis, verify:
+
+- [ ] Every assumption includes all 7 table fields (Category, Stated/Implicit, Evidence For, Evidence Against, Risk if Wrong, How to Validate, Verdict)
+- [ ] "How to Validate" entries are executable actions, not vague suggestions
+- [ ] Verdicts are assigned (Valid/Questionable/Invalid/Unknown)
+- [ ] Assumptions are prioritized by impact × uncertainty
+- [ ] Wishful thinking indicators are flagged with specific quotes
+
+---
+
 ## Output Format
 
 ```markdown

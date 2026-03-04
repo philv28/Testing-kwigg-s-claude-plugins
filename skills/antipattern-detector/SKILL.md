@@ -116,6 +116,22 @@ Certain patterns appear together and compound risk:
 
 ---
 
+## When to Use This Skill
+
+Use **antipattern-detector** for recognizing known failure patterns (architecture, timeline, team, process, technology). Use **assumption-challenger** for surfacing hidden assumptions treated as facts. Both run together in `/validate`.
+
+## Pre-Delivery Checklist
+
+Before presenting an analysis, verify:
+
+- [ ] Every detected pattern includes a direct evidence quote from the plan
+- [ ] Every pattern has a severity rating (Critical/High/Medium/Low)
+- [ ] Pattern combinations are checked and reported
+- [ ] "Patterns NOT Detected" section is included for confidence
+- [ ] Fixes are specific and actionable, not generic advice
+
+---
+
 ## Output Format
 
 ```markdown

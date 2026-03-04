@@ -163,6 +163,17 @@ Before finalizing a PR description, verify:
 - No testing information
 - Burying breaking changes in the middle of text
 
+### WRONG vs. CORRECT: PR Titles
+
+**WRONG — generic title with no context:**
+> `Update code` / `Fix bug` / `EXAM-1234`
+
+**CORRECT — conventional commit with scope and intent:**
+> `feat(auth): add OAuth2 login with Google SSO`
+> `fix(api): handle null response in user endpoint`
+
+The title should tell a reviewer what changed and why at a glance. Ticket references belong in the body under "Related Issues", not in the title.
+
 ## Adapting to PR Size
 
 **Small PRs (1-3 files, simple fix):**
