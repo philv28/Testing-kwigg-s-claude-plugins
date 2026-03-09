@@ -19,6 +19,7 @@ This is a Claude Code plugin that provides commands for code review, PR creation
 - `/ask-gemini` - Second opinion from Gemini (backed by `gemini-advisor` skill)
 - `/generate-image` - AI image generation with enhanced prompts (backed by `image-generator` skill)
 - `/paper-banana` - Publication-quality illustrations via 5-agent pipeline (backed by `paper-banana` skill)
+- `/teach-me` - Pedagogical code walkthrough (backed by `teach-me` skill)
 
 ## Architecture
 
