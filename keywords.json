@@ -1,5 +1,22 @@
 [
   {
+    "name": "teach",
+    "triggers": [
+      "teach me",
+      "explain my changes",
+      "walk me through",
+      "what did I build",
+      "explain what these files do"
+    ],
+    "priority": 1,
+    "skill": "kw-plugin:teach-me",
+    "skillArgs": "1",
+    "excludes": [
+      "review"
+    ],
+    "instruction": "The user wants a pedagogical walkthrough of their code changes.\nYou MUST invoke the kw-plugin:teach-me skill using the Skill tool.\nPass argument \"1\" for uncommitted changes unless the user specifies otherwise."
+  },
+  {
     "name": "review",
     "triggers": [
       "review",
