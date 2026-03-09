@@ -29,7 +29,9 @@ User argument: {{#if $ARGUMENTS}}$ARGUMENTS{{else}}(none provided){{/if}}
 
 Arguments can be combined: `/teach-me 3 src/` teaches about unpushed commits filtered to `src/`.
 
-If no argument was provided, default to scope **1** (uncommitted changes). Do NOT prompt the user — just proceed with uncommitted changes.
+If no argument was provided, default to scope **1** (uncommitted changes). Do NOT prompt the user for scope selection — just proceed with uncommitted changes.
+
+> **Note:** `AskUserQuestion` is available only for scope resolution fallbacks (e.g., no upstream branch for scope 3, invalid PR number). Never use it to ask which scope to use.
 
 ## Scope resolution rules
 - **1 (Uncommitted):** collect the uncommitted diff/changed files in the working tree.

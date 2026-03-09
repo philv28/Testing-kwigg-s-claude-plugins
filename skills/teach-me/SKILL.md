@@ -21,7 +21,8 @@ description: |
    - **No changes** — If the diff is empty, say so and suggest what to try next.
    - **Binary files** — Skip with a one-line note ("Skipping binary file X").
    - **Generated files** — Skip lock files, build output, codegen. Note what was skipped.
-   - **Large diffs (>1000 lines)** — Warn the user, offer to focus on a subset, then proceed.
+   - **Large diffs (>1000 lines)** — Note the size, auto-select the 10 most significant files
+     (by change size and architectural importance), and teach those. List the skipped files at the end.
    - **Scaffolded/boilerplate** — Acknowledge but don't spend time teaching obvious template code.
      Focus on the parts the developer actually wrote or customized.
 
