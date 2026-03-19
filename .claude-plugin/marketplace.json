@@ -9,7 +9,12 @@
   "plugins": [
     {
       "name": "kw-plugin",
-      "source": "../",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/philv28/Testing-kwigg-s-claude-plugins.git",
+        "path": ".",
+        "ref": "main"
+      },
       "description": "Code reviews, PR creation, team analytics, and release management"
     }
   ]
