@@ -1,7 +1,7 @@
 ---
 description: "Pedagogical code walkthrough - teaches you about your own code changes"
 argument-hint: "[1|2|3|<PR#>] [--staged] [path/prefix]"
-allowed-tools: ["AskUserQuestion"]
+allowed-tools: ["AskUserQuestion", "Bash(git diff:*)", "Bash(git log:*)", "Bash(git status:*)", "Bash(gh pr view:*)", "Bash(gh pr diff:*)", "Read"]
 ---
 
 # /teach-me
