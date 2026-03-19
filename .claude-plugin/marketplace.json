@@ -9,7 +9,6 @@
   "plugins": [
     {
       "name": "kw-plugin",
-      "source": "philv28/Testing-kwigg-s-claude-plugins",
       "description": "Code reviews, PR creation, team analytics, and release management"
     }
   ]
